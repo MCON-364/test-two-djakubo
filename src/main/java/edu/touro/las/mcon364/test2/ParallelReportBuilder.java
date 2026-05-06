@@ -82,7 +82,12 @@ public class ParallelReportBuilder {
             throws InterruptedException, ExecutionException, IllegalArgumentException {
 
         // TODO 2A: validate inputs where appropriate
-
+        if(workers<=0){
+            throw new IllegalArgumentException("Workers must be greater than 0");
+        }
+        if(batches.isEmpty()){
+            throw new IllegalArgumentException("Batches cannot be empty");
+        }
         // TODO 2B: create the concurrency structure needed for the pattern you chose
         ExecutorService pool = Executors.newFixedThreadPool(workers);
 
