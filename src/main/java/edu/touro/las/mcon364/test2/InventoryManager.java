@@ -110,14 +110,27 @@ public class InventoryManager {
      * Returns the current stock for {@code item}, or 0 if unknown.
      */
     public int getStock(String item) {
-       return stock.getOrDefault(item, 0);
+        int stockCopy;
+        try {
+            lock.lock();
+            stockCopy = stock.getOrDefault(item, 0);
+        } finally {
+            lock.unlock();
+        }
+        return stockCopy;
     }
-
     /**
      * Returns the cumulative number of units ever added (all items combined).
      */
     public int getTotalUnitsAdded() {
-        return totalUnitsAdded.get();
+        int totalUnits;
+        try{
+            lock.lock();
+            totalUnits = totalUnitsAdded.get();
+        }finally{
+            lock.unlock();
+        }
+        return totalUnits;
     }
 
     /**
